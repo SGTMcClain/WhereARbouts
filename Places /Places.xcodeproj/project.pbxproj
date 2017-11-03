@@ -24,6 +24,8 @@
 		8F74046F1DCDD5F5009A6F0B /* hdar_close@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8F7404651DCDD5F5009A6F0B /* hdar_close@3x.png */; };
 		8F7404801DCF31B0009A6F0B /* PlacesLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F74047E1DCF31B0009A6F0B /* PlacesLoader.swift */; };
 		8F7404811DCF31B0009A6F0B /* Place.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F74047F1DCF31B0009A6F0B /* Place.swift */; };
+		D7E9BDB31FACFE8F00C7B3CD /* PlaceAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7E9BDB21FACFE8F00C7B3CD /* PlaceAnnotation.swift */; };
+		D7E9BDB51FAD08BE00C7B3CD /* AnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7E9BDB41FAD08BE00C7B3CD /* AnnotationView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,6 +48,8 @@
 		8F7404651DCDD5F5009A6F0B /* hdar_close@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hdar_close@3x.png"; sourceTree = "<group>"; };
 		8F74047E1DCF31B0009A6F0B /* PlacesLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlacesLoader.swift; sourceTree = "<group>"; };
 		8F74047F1DCF31B0009A6F0B /* Place.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Place.swift; sourceTree = "<group>"; };
+		D7E9BDB21FACFE8F00C7B3CD /* PlaceAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceAnnotation.swift; sourceTree = "<group>"; };
+		D7E9BDB41FAD08BE00C7B3CD /* AnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnotationView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +66,7 @@
 		8F74043A1DCDD569009A6F0B = {
 			isa = PBXGroup;
 			children = (
+				D7E9BDB21FACFE8F00C7B3CD /* PlaceAnnotation.swift */,
 				8F7404451DCDD569009A6F0B /* Places */,
 				8F7404441DCDD569009A6F0B /* Products */,
 			);
@@ -82,6 +87,7 @@
 			children = (
 				8F7404461DCDD569009A6F0B /* AppDelegate.swift */,
 				8F7404481DCDD569009A6F0B /* ViewController.swift */,
+				D7E9BDB41FAD08BE00C7B3CD /* AnnotationView.swift */,
 				8F74047E1DCF31B0009A6F0B /* PlacesLoader.swift */,
 				8F74047F1DCF31B0009A6F0B /* Place.swift */,
 				8F7404581DCDD5F5009A6F0B /* HDAugmentedReality */,
@@ -166,7 +172,7 @@
 				TargetAttributes = {
 					8F7404421DCDD569009A6F0B = {
 						CreatedOnToolsVersion = 8.1;
-						DevelopmentTeam = KL6NU6Q5M2;
+						DevelopmentTeam = C27AT53KSB;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -212,7 +218,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				8F7404801DCF31B0009A6F0B /* PlacesLoader.swift in Sources */,
+				D7E9BDB51FAD08BE00C7B3CD /* AnnotationView.swift in Sources */,
 				8F74046A1DCDD5F5009A6F0B /* ARViewController.swift in Sources */,
+				D7E9BDB31FACFE8F00C7B3CD /* PlaceAnnotation.swift in Sources */,
 				8F7404491DCDD569009A6F0B /* ViewController.swift in Sources */,
 				8F7404661DCDD5F5009A6F0B /* ARAnnotation.swift in Sources */,
 				8F74046B1DCDD5F5009A6F0B /* DebugMapViewController.swift in Sources */,
@@ -341,10 +349,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = KL6NU6Q5M2;
+				DEVELOPMENT_TEAM = C27AT53KSB;
 				INFOPLIST_FILE = Places/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.razeware.Places;
+				PRODUCT_BUNDLE_IDENTIFIER = com.wherarbouts.Places;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};
@@ -354,10 +362,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = KL6NU6Q5M2;
+				DEVELOPMENT_TEAM = C27AT53KSB;
 				INFOPLIST_FILE = Places/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.razeware.Places;
+				PRODUCT_BUNDLE_IDENTIFIER = com.wherarbouts.Places;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};

@@ -31,6 +31,7 @@ class ViewController: UIViewController {
   fileprivate let locationManager = CLLocationManager()
   fileprivate var startedLoadingPOIs = false //tracks if there is a request in progress
   fileprivate var places = [Place]() //stores the received POIs
+  fileprivate var arViewController: ARViewController!
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -47,8 +48,49 @@ class ViewController: UIViewController {
   }
   
   @IBAction func showARController(_ sender: Any) {
+    arViewController = ARViewController()
+    
+    //1 The dataSource for the arViewController is set.
+    //  The dataSource provides views for visible POIs
+    arViewController.dataSource = self
+    
+    //2
+    arViewController.maxVisibleAnnotations = 30     //limiting this to 30 keeps things smooth but
+                                                    //limits how many can be see at once in places
+                                                    //with many POIS
+    
+    arViewController.headingSmoothingFactor = 0.05  //0.00 to 1 higher values cause jumping,
+                                                    //lower values will smooth out the animation
+                                                    //but the views may be a bit behind
+    
+    //For a scavenger hunt type of game or to simply limit the number of annotations in a busy area
+    //you may also want to use maxDistance which limits the annotations given the meters in distance
+    //See ARController.swift for more details
+    
+    //3 This shows the arViewController
+    arViewController.setAnnotations(places)
+    
+    self.present(arViewController, animated: true, completion: nil)
+    
   }
   
+}
+
+extension ViewController: ARDataSource {
+  func ar(_ arViewController: ARViewController, viewForAnnotation: ARAnnotation) -> ARAnnotationView {
+    let annotationView = AnnotationView()
+    annotationView.annotation = viewForAnnotation
+    annotationView.delegate = self
+    annotationView.frame = CGRect(x: 0, y: 0, width: 150, height: 50)
+    
+    return annotationView
+  }
+}
+
+extension ViewController:AnnotationViewDelegate {
+  func didTouch(annotationView: AnnotationView){
+    print("Tapped view for POI: \(annotationView.titleLabel?.text)")
+  }
 }
 
 extension ViewController: CLLocationManagerDelegate{
@@ -75,7 +117,36 @@ extension ViewController: CLLocationManagerDelegate{
           let  loader = PlacesLoader()
           loader.loadPOIS(location: location, radius: 1000) { placesDict, error in
             if let dict = placesDict {
-              print(dict)
+              
+              //1  The guard statement checks that the response has the expected format
+              guard let placesArray = dict.object(forKey: "results") as? [NSDictionary] else {return}
+              
+              //2 This line iterates over the recived POI's
+              for placeDict in placesArray{
+                
+                //3 These lines get the needed information from the dictionary.
+                //  The response contains a lot more information that is not needed for this app.
+                let latitude = placeDict.value(forKeyPath: "geometry.location.lat") as! CLLocationDegrees
+                let longitude = placeDict.value(forKeyPath: "geometry.location.lng") as! CLLocationDegrees
+                let reference = placeDict.value(forKey: "reference") as! String
+                let name = placeDict.value(forKey: "name") as! String
+                let address = placeDict.value(forKey: "vicinity") as! String
+                
+                let location = CLLocation(latitude: latitude, longitude: longitude)
+                
+                //4 With the extracted information a Place object is created and appended to the places array
+                let place = Place(location: location, reference: reference, name:name, address: address)
+                self.places.append(place)
+                
+                //5 The next line creates a PlaceAnnotation that is used to show an annotation on the map view
+                let annotation = PlaceAnnotation(location: place.location!.coordinate, title: place.placeName)
+                
+                //6 Finally the annotation is added to the map view.
+                //Since this manipulates the UI, the code has to be executed on the main thread
+                DispatchQueue.main.async {
+                  self.mapView.addAnnotation(annotation)
+                }
+              }
             }
           }
         }
