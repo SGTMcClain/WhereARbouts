@@ -74,6 +74,16 @@ class ViewController: UIViewController {
     
   }
   
+  func showInfoView(forPlace place: Place){
+    
+    //1 To show the additonal info you create an alert view with the POIs name as title and an info text as message.
+    let alert = UIAlertController(title: place.placeName, message: place.infoText, preferredStyle: UIAlertControllerStyle.alert)
+    alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
+    
+    //2 Since ViewController is not a part of the view hirarchy right now, you use arViewController to show the alert.
+    arViewController.present(alert, animated: true, completion: nil)
+  }
+  
 }
 
 extension ViewController: ARDataSource {
@@ -89,7 +99,25 @@ extension ViewController: ARDataSource {
 
 extension ViewController:AnnotationViewDelegate {
   func didTouch(annotationView: AnnotationView){
-    print("Tapped view for POI: \(annotationView.titleLabel?.text)")
+    
+    //1 First you cast annotationView's annotation to a Place
+    if let annotation = annotationView.annotation as? Place {
+      
+      //2 Then you load additional information for this place
+      let placesLoader = PlacesLoader()
+      placesLoader.loadDetailInformation(forPlace: annotation) {
+        resultDict, error in
+        
+        //3 And assign it to the appropriate properties
+        if let infoDict = resultDict?.object(forKey: "result") as? NSDictionary {
+          annotation.phoneNumber = infoDict.object(forKey: "formatted_phone_number") as? String
+          annotation.website = infoDict.object(forKey: "website")  as? String
+          
+          //4 showInfoView(forPlace:) is a method you implement
+          self.showInfoView(forPlace: annotation)
+        }
+      }
+    }
   }
 }
 
